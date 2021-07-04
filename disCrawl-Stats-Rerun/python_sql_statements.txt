@@ -1,0 +1,13 @@
+"""
+    for i in range(0, 70):
+        print('DELETE FROM tempdistance WHERE pdb_id like "%%";')
+        print("INSERT INTO tempdistance SELECT *,_rowid_ from distance LIMIT 1000000 OFFSET {};".format(1000000*i))
+        print("INSERT INTO subdistance SELECT *, min(distance),'A-KNe',_rowid_ from tempdistance WHERE dynamic_name = 'NZ' and static_name = 'C' GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance),'I0LYS-KNe', _rowid_ from tempdistance WHERE inter is 0 and dynamic_name = 'NZ' and static_name = 'C' GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance),'I1E0-KNe',_rowid_ from tempdistance WHERE inter is 1 and dynamic_name = 'NZ' and static_name = 'C' and not poly_id_eq GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance), 'I1E1-KNe',_rowid_ from tempdistance WHERE inter is 1 and dynamic_name = 'NZ' and static_name = 'C' and poly_id_eq GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance),'A-YOH',_rowid_ from tempdistance WHERE dynamic_name = 'OH' and static_name = 'C' GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance),'I0LYS-YOH', _rowid_ from tempdistance WHERE inter is 0 and dynamic_name = 'OH' and static_name = 'C' GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance),'I1E0-YOH',_rowid_ from tempdistance WHERE inter is 1 and dynamic_name = 'OH' and static_name = 'C' and not poly_id_eq GROUP BY pdb_id;")
+        print("INSERT INTO subdistance SELECT *, min(distance), 'I1E1-YOH',_rowid_ from tempdistance WHERE inter is 1 and dynamic_name = 'OH' and static_name = 'C' and poly_id_eq GROUP BY pdb_id;")
+    """

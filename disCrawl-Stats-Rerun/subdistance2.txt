@@ -1,0 +1,9 @@
+DELETE FROM sub2distance WHERE pdb_id like "%%";
+INSERT INTO sub2distance SELECT *, min(distance),'A-KNe',_rowid_ from subdistance WHERE dynamic_name = 'NZ' and static_name = 'C' GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance),'I0LYS-KNe', _rowid_ from subdistance WHERE inter is 0 and dynamic_name = 'NZ' and static_name = 'C' GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance),'I1E0-KNe',_rowid_ from subdistance WHERE inter is 1 and dynamic_name = 'NZ' and static_name = 'C' and not poly_id_eq GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance), 'I1E1-KNe',_rowid_ from subdistance WHERE inter is 1 and dynamic_name = 'NZ' and static_name = 'C' and poly_id_eq GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance),'A-YOH',_rowid_ from subdistance WHERE dynamic_name = 'OH' and static_name = 'C' GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance),'I0LYS-YOH', _rowid_ from subdistance WHERE inter is 0 and dynamic_name = 'OH' and static_name = 'C' GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance),'I1E0-YOH',_rowid_ from subdistance WHERE inter is 1 and dynamic_name = 'OH' and static_name = 'C' and not poly_id_eq GROUP BY pdb_id;
+INSERT INTO sub2distance SELECT *, min(distance), 'I1E1-YOH',_rowid_ from subdistance WHERE inter is 1 and dynamic_name = 'OH' and static_name = 'C' and poly_id_eq GROUP BY pdb_id;

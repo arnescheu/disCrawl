@@ -1,0 +1,36 @@
+1) Set up tables
+	[To enter]
+2) Run subdistance_alt.txt in DB-browser
+	This redoes naming system for min_type to include all categories which were preset, not repeating their value
+	Start run 2020-05-03: 4pm
+	End run 2020-05-03: Checked back 5:30, complete
+3) Make sub2distance2 (remove duplicates)
+	DELETE FROM sub2distance WHERE pdb_id like "%%";
+	insert into sub2distance SELECT *, min(distance) from subdistance GROUP BY pdb_id, min_type, dynamic_name;
+4) #select lowest distance from sub2distance for all other than min_type "A" to later compare in pymol
+	DELETE FROM comp_distance WHERE pdb_id like "%%";
+	insert into comp_distance select *, min(distance), count(*), count(DISTINCT poly_id_eq) from sub2distance WHERE min_type != "N" GROUP BY pdb_id, dynamic_name;
+5) as 4, but only lowest hit from biological assemblies
+	DELETE FROM comp_distance_unique WHERE pdb_id like "%%";
+	insert into comp_distance_unique select *, min(distance), substr(pdb_id,1,4) as source_id from comp_distance GROUP BY source_id, dynamic_name;
+6) as 3, but only lowest hit from biological assemblies
+	insert into sub2distance_unique select *, min(distance), substr(pdb_id,1,4) as source_id from sub2distance GROUP BY source_id, min_type, dynamic_name;
+
+Explanation for N/NI/NIE, F/0/1 etc:
+N - dynamic_name 
+NI - dynamic_name and inter = 0
+NIE - dynamic_name and inter = 1 and poly_id_eq = 0/1
+cnt_star/cnt_pideq from insert into comp_distance select *, min(distance), count(*), count(DISTINCT poly_id_eq) from sub2distance WHERE min_type != "N" GROUP BY pdb_id, dynamic_name;
+i.e. how many are inter/intra
+and cnt_pideq how many are different per structure (inter/homo/hetero)
+
+'NIE', 2, 1, 'NZ', 0:
+	NIE type
+	cnt_star = 2 [cnt_star: count(*)
+		two distance categories
+	cnt_pideq = 1
+		Only one chain identity (therefore homomers)
+	dyn-name = "NZ"
+	poly_id_eq = 0
+		Only heteromers 
+Gives 0 results as cnt_pideq and poly_id_eq can't both be true
